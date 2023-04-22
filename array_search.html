@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<title>二十一代集の検索</title>
+<script type="module">
+
+    async function getData(url) {
+        const response = await fetch(url);
+        const data = await response.json();
+        return data;
+    }
+
+    function toArray(value) {
+        if (Array.isArray(value)) {
+            console.log(value.flatMap(toArray));
+            return value.flatMap(toArray);
+        } else if (typeof value === 'object' && value !== null) {
+            return Object.values(value).flatMap(toArray);
+        } else {
+            return value;
+        }
+    }
+
+    function search_nested_dict(dictionary, pattern) {
+        let result = {};
+        for (let [key, value] of Object.entries(dictionary)) {
+            if (typeof value === "object") {
+                let nested_result = search_nested_dict(value, pattern);
+                if (Object.keys(nested_result).length !== 0) {
+                    result[key] = nested_result;
+                }
+            } else {
+                if (new RegExp(pattern).test(value)) {
+                    result[key] = value;
+                }
+            }
+        }
+        return result;
+    }
+
+    //***********
+    function craeteHtmlFromJson(_data) {
+        let resultHtml3 = [];
+        for (let _key in _data) {
+            // console.log(_key, _data[_key]);
+            // ￥W #resultHtml > div > li.￥Ｗ
+            if (_key == '￥Ｗ') {
+                resultHtml3 += '<li class="' + _key + '">' + _data[_key] + "</li>";
+            } else {
+            resultHtml3 += '<li class="' + _key + ' hidden">' + _data[_key] + "</li>";
+            }
+            // console.log(resultHtml3);
+        }
+        return resultHtml3;
+    }
+    //***********
+
+    const url = 'https://raw.githubusercontent.com/wonox/nijuichidaishu/main/out/test1.json';
+    const data = await getData(url);
+    // const result = search_nested_dict(data, '.*やそのふなつを');   // '.*はなのさかり.*しりなから'); 
+    // const keys2 = Object.keys(result);
+    // console.log('keys2: ', keys2);
+    // const resultList = createResult(keys2);
+
+    // let resultList = [];
+
+    function createResult(keys2) {
+        let resultList2 = '';
+        for (let i = 0; i < keys2.length; ++i) {
+            let resultHtml4 = craeteHtmlFromJson(data[keys2[i]][0]);
+            resultList2 += keys2[i] + '<div>' + resultHtml4 + '</div>';
+            // resultList += '<li>'+ JSON.stringify(data[keys2[i]][0]) + '</li>';
+        }
+        return [resultList2, keys2.length];
+    }
+
+    // document.getElementById('resultHtml').innerHTML = resultList[0];
+    // document.getElementById('resultTotal').innerHTML = 'Total: ' + resultList[1]  + '件です。';
+    // console.log(keys2[i].length);
+
+    function dakuten(str){
+        let _str = '';
+        for (let i = 0; i < str.length; ++i) {
+           _str += str.normalize('NFD')[i];
+        }
+        return _str;
+    }
+
+    // 入力フォーム
+    const input = document.getElementById("sampleForm");
+    const span = document.getElementById("inputCounter");
+    input.addEventListener("keyup", function () {
+        span.textContent = input.value.length;
+        // const valueText = input.value;
+        // console.log('だくてん', valueText.normalize('NFD'));
+        // console.log('だくてん２', dakuten(valueText));
+        if (span.textContent > 2) {
+            const result = search_nested_dict(data, dakuten(input.value));      // '.*やそのふなつを');
+            const keys2 = Object.keys(result);
+            const resultList = createResult(keys2);
+            console.log(input.value);
+            document.getElementById('resultHtml').innerHTML = resultList[0];
+            document.getElementById('resultTotal').innerHTML = 'Total: ' + resultList[1] + '件です。';
+        } else if(span.textContent == 0) {
+            alert('ここで要素を消したい');
+        };
+    });
+</script>
+<style>
+.hidden {
+  display: none;
+}
+</style>
+</head>
+
+<body>
+    <label for="sampleForm">二十一代集の検索（３文字以上入力すると検索を開始します）</label>
+    <input type="button" value="ボタン1" id="clickBtn1" />
+    <br />
+    <input type="text" id="sampleForm" />
+    <p><span id="inputCounter">0</span>文字</p>
+
+    <div id="resultTotal"></div>
+    <div id="resultHtml"></div>
+
+<script>
+  const trigger = document.getElementById("clickBtn1");
+  const p1 = document.getElementsByClassName('hidden');   //("￥Ｋ");
+  trigger.addEventListener("click",function(){
+    for(var i = 0; i < p1.length; ++i) p1[i].classList.toggle('hidden');
+  });
+</script>
+</body>
+</html>
