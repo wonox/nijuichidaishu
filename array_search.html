@@ -65,9 +65,20 @@
 
     function createResult(keys2) {
         let resultList2 = '';
+        // resultList2 = '<ul class="resultHtml4"><li class="resultHtml5">' + keys2[i] + '</li>'; // ￥Ａ新続古今和歌集￥Ｎ０２１５８
         for (let i = 0; i < keys2.length; ++i) {
-            let resultHtml4 = craeteHtmlFromJson(data[keys2[i]][0]);
-            resultList2 += keys2[i] + '<div>' + resultHtml4 + '</div>';
+            resultList2 += '<ul class="resultHtml4"><li class="resultHtml5">' + keys2[i] + '</li>'; // ￥Ａ新続古今和歌集￥Ｎ０２１５８
+            let resultHtml4 = craeteHtmlFromJson(data[keys2[i]][0]);     // 〇
+            // resultList2 += keys2[i] + '<div>' + resultHtml4 + '</div>';  // 〇
+            resultList2 += resultHtml4 + '</ul>';  // 〇
+            // resultList2 = '<ul class="resultHtml4"><li class="resultHtml5">' + keys2[i] + '</li>'; // ￥Ａ新続古今和歌集￥Ｎ０２１５８
+            // resultList2 = '<ul class="resultHtml4">' + keys2[i]; //  + '</li>'; // ￥Ａ新続古今和歌集￥Ｎ０２１５８
+            // let resultHtml4 = craeteHtmlFromJson(data[keys2[i]][0]);
+            // resultList2 += '<ul class="resultHtml4">' + keys2[i] + '<li>' + resultHtml4 + '</li></ul>';
+            // resultList2 += '<li>' + resultHtml4 + '</li></ul>';
+            // resultList2 += resultHtml4 + '</ul>';
+            // let resultHtml4 = craeteHtmlFromJson(data[keys2[i]][0]);
+            // resultList2 += keys2[i] + '<div>' + resultHtml4 + '</div>';
             // resultList += '<li>'+ JSON.stringify(data[keys2[i]][0]) + '</li>';
         }
         return [resultList2, keys2.length];
@@ -80,9 +91,18 @@
     function dakuten(str){
         let _str = '';
         for (let i = 0; i < str.length; ++i) {
-           _str += str.normalize('NFD')[i];
+           _str += str[i].normalize('NFD')[0];
         }
         return _str;
+    }
+
+    function deleteElem(elem) {
+        console.log('ここで要素を消す');
+        // document.querySelectorAll('.resultHtml4').innerHTML = ``;
+        let items = document.querySelectorAll(elem);  // '.resultHtml4');
+        for (const item of items) {
+            item.remove();
+        }
     }
 
     // 入力フォーム
@@ -97,11 +117,13 @@
             const result = search_nested_dict(data, dakuten(input.value));      // '.*やそのふなつを');
             const keys2 = Object.keys(result);
             const resultList = createResult(keys2);
-            console.log(input.value);
+            console.log(dakuten(input.value));
             document.getElementById('resultHtml').innerHTML = resultList[0];
-            document.getElementById('resultTotal').innerHTML = 'Total: ' + resultList[1] + '件です。';
+            document.getElementById('resultTotal').innerHTML = '<div class="total">Total: ' + resultList[1] + '件です。</div)';
         } else if(span.textContent == 0) {
-            alert('ここで要素を消したい');
+            console.log('ここで要素を消したい');
+            deleteElem('.resultHtml4');
+            deleteElem('.total');
         };
     });
 </script>
