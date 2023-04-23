@@ -46,7 +46,7 @@
             if (_key == '￥Ｗ') {
                 resultHtml3 += '<li class="' + _key + '">' + _data[_key] + "</li>";
             } else {
-            resultHtml3 += '<li class="' + _key + ' hidden">' + _data[_key] + "</li>";
+            resultHtml3 += '<li class="hidden hidden2 ' + _key + '">' + _data[_key] + "</li>";
             }
             // console.log(resultHtml3);
         }
@@ -145,11 +145,49 @@
     <div id="resultHtml"></div>
 
 <script>
+        // const btn = document.getElementsByClassName('clickBtn1');
+        const btn = document.getElementById('clickBtn1');
+        // const categories = document.querySelectorAll('hidden');
+        const categories = document.getElementsByClassName('hidden2');
+
+
+        btn.addEventListener('click', (evt) => {
+            console.log(categories);
+            console.log(categories.length);
+            const categories_length = categories.length;
+            // categories.forEach((category) => {
+            // for (let i = 0; i < categories.length; i++) {
+            Array.prototype.forEach.call( categories , e => {
+                console.log( e ) ;
+                e.classList.toggle('hidden');
+                console.log('categories:', categories);
+                //console.log('category: ', categories[i]);
+                //console.log(i);
+                // if (evt.target.closest(".single-category-header")) {
+                // categories[i].classList.toggle('hidden');
+                // }
+            });
+            
+        });
+
+/*
   const trigger = document.getElementById("clickBtn1");
   const p1 = document.getElementsByClassName('hidden');   //("￥Ｋ");
+  // const p1 = document.querySelectorAll('hidden');  
   trigger.addEventListener("click",function(){
     for(var i = 0; i < p1.length; ++i) p1[i].classList.toggle('hidden');
   });
+
+  const p1 = document.getElementsByClassName('hidden');
+  const btn = document.getElementById('clickBtn1');
+  btn.addEventListener('click', () => {
+    for(var i = 0; i < p1.length; ++i) {
+        p1[i].classList.toggle('hidden');
+        // this.classList.toggle('hidden');
+        // test.classList.toggle('hidden');
+    }
+　});
+  */
 </script>
 </body>
 </html>
