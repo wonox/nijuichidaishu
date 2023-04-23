@@ -6,4 +6,8 @@ https://researchmap.jp/blogs/blog_entries/view/75174/a64a27fb1d38ca51f0c47b9645e
 のデータを使用し、二十一代集本文をjson化し、検索可能にする。
 
 # 方法
-pythonを使用
++ データのjson化にはpythonを使用
++ 検索には、javascriptを使用
+
+# 検索
+https://wonox.github.io/nijuichidaishu/array_search.html
