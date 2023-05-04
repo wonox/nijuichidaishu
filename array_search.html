@@ -59,7 +59,7 @@
 
     // 濁音を清音に変換する
     function dakuten(str){
-        let _str = '';
+        let _str= '';
         for (let i = 0; i < str.length; ++i) {
            _str += str[i].normalize('NFD')[0];
         }
@@ -67,7 +67,8 @@
     }
 
     // console.log('要素を消す');
-    function deleteElem(elem) {
+    const deleteElem = (elem) => {
+    // function deleteElem(elem) {
         let items = document.querySelectorAll(elem);  // '.resultHtml4');
         for (const item of items) {
             item.remove();
@@ -110,7 +111,7 @@
     <!-- input type="button" value="詳細表示" id="clickBtn1" / -->
     <div id="clickBtn1"></div>
     <br />
-    <input type="text" id="sampleForm" />
+    <input type="text" id="sampleForm" placeholder=".*のさかり.*しりなから"/>
     <p><span id="inputCounter">0</span>文字</p>
 
     <div id="resultTotal"></div>
@@ -118,6 +119,7 @@
 
     <div>
         データの出典、ソースなどは<a href="https://github.com/wonox/nijuichidaishu">こちら</a>。
+
     </div>
 
 <script>

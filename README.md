@@ -11,3 +11,9 @@ https://researchmap.jp/blogs/blog_entries/view/75174/a64a27fb1d38ca51f0c47b9645e
 
 # 検索
 https://wonox.github.io/nijuichidaishu/array_search.html
+
+# レーベンシュタイン距離を測って、似ている和歌を抽出する
++ 結果は test1.json
++ 編集距離　1以上15以下のものを抽出
++ 手順は、wakashu.ipynb に記載
++ 編集距離 １とか２は、単に異同
