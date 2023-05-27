@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<title>テキストファイルの検索</title>
+<script type="module">
+// window.Array = ['123','345','あいう','夜露死苦','あ夜']
+
+const search_array = (array_data, word) => {
+    const resultList = data.filter( function (value) {
+        // word を含む文字列を抽出
+        return value.includes(word);
+    })
+    return resultList;
+}
+
+// 結果表示を組み立てる
+const createResult = (keys) => {
+        let resultList2 = '';
+        resultList2 += '<ol class="resultHtml">'; 
+        for (let i = 0; i < keys.length; ++i) {
+            resultList2 += '<li>' + keys[i]  + '</li>'; // </ol>';  
+        }
+        resultList2 += '</ol>';
+        return [resultList2, keys.length];
+}
+
+    // console.log('要素を消す');
+    const deleteElem = (elem) => {
+        let items = document.querySelectorAll(elem);
+        for (const item of items) {
+            item.remove();
+        }
+    }
+
+    // const data = window.Array;
+
+    // 入力フォーム
+    const input = document.getElementById("sampleForm");
+    const span = document.getElementById("inputCounter");
+    input.addEventListener("keyup", function () {
+        span.textContent = input.value.length;
+        if (span.textContent > 0) {
+            let search_word = input.value;
+            const result = search_array(data, search_word);  
+            const resultList = createResult(result);
+            document.getElementById('resultHtml').innerHTML = resultList[0];
+            document.getElementById('resultTotal').innerHTML = '<div class="total">Total: ' + resultList[1] + '件です。</div>';
+            document.getElementById('clickBtn1').innerHTML = '<input type="button" value="詳細表示" id="clickBtn1" />';
+        // } else if(span.textContent == 0) {
+        } else {
+            deleteElem('.resultHtml');
+            deleteElem('.total');
+        };
+    });
+</script>
+</head>
+
+<body>
+    <label for="sampleForm">ローカルファイルの検索（初めにテキストファイル（UTF8）を選択し、検索語を入力すると検索を開始します。）</label>
+    <form name="myform">  
+        <input name="myfile" type="file" accept="text/*" label="text file"/><br/>
+        <textarea name="output" cols="80" rows="5"></textarea>     
+    </form>
+
+    <div id="clickBtn1"></div>
+    <br />
+    <input type="text" id="sampleForm" placeholder="検索語"/>
+    <p><span id="inputCounter">0</span>文字</p>
+
+    <div id="resultTotal"></div>
+    <div id="resultHtml"></div>
+
+    <div>
+        ソースなどは<a href="https://github.com/wonox/nijuichidaishu">こちら</a>。
+
+    </div>
+
+<script>
+
+// ローカルファイルを処理
+const form = document.forms.myform;
+// File APIを利用できるかをチェック
+if (window.File) {
+    form.myfile.addEventListener('change', function (e) {
+        const myfile_result = e.target.files[0];
+        //FileReaderのインスタンスを作成する
+        const reader = new FileReader();
+        //読み込んだファイルの中身を取得する
+        reader.readAsText(myfile_result);
+        //ファイルの中身を取得後に処理を行う
+        reader.addEventListener('load', function () {
+            //1行ずつ読み込む
+            data = reader.result.split('\n');
+            //ファイルの中身をtextarea内に表示する
+            form.output.textContent = data; // reader.result;
+        })
+    })
+};
+</script>
+</body>
+</html>
