@@ -66,6 +66,11 @@
         return _str;
     }
 
+    const consonant = (str2) => {
+        let _vowel = str2.replace(/[kstnhmyrwgzjdb]/g, '');
+        return _vowel;
+    }
+
     // console.log('要素を消す');
     const deleteElem = (elem) => {
     // function deleteElem(elem) {
@@ -84,10 +89,13 @@
     input.addEventListener("keyup", function () {
         span.textContent = input.value.length;
         if (span.textContent > 2) {
-            const result = search_nested_dict(data, dakuten(input.value));      // '.*やそのふなつを');
+            // const result = search_nested_dict(data, dakuten(input.value));      // '.*やそのふなつを');
+            let search_word = dakuten(input.value);
+            let search_word2 = consonant(search_word);
+            console.log(search_word2);
+            const result = search_nested_dict(data, search_word2);  
             const keys2 = Object.keys(result);
             const resultList = createResult(keys2);
-            console.log(dakuten(input.value));
             document.getElementById('resultHtml').innerHTML = resultList[0];
             document.getElementById('resultTotal').innerHTML = '<div class="total">Total: ' + resultList[1] + '件です。</div>';
             document.getElementById('clickBtn1').innerHTML = '<input type="button" value="詳細表示" id="clickBtn1" />';
