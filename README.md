@@ -26,3 +26,4 @@ https://wonox.github.io/nijuichidaishu/array_search.html
 + たとえば、以下が似ていることが分かる
 ++ "auauiaeuaiuoioioooiooaaiuiauiuu", 春霞／たてるやいつこ／みよしのゝ／吉野の山に／雪はふりつゝ￥Ａ古今和歌集￥Ｎ００００３
 ++ "auaaaaeuaiuoioioooiooaaaauioeuu" 桜花／さけるやいつこ／御吉野の／よしのゝ山は／かすみこめつゝ￥Ａ新後拾遺和歌集￥Ｎ０００７７ 
++ out/vowel2.json にペアを出力 
