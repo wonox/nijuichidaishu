@@ -27,7 +27,7 @@
         return result;
     }
 
-　　// 結果表示の組み立てる
+    // 結果表示を組み立てる
     function createResult(keys2) {
         let resultList2 = '';
         resultList2 += '<ol class="resultHtml4">'; //  keys2[i] ￥Ａ新続古今和歌集￥Ｎ０２１５８
@@ -41,19 +41,17 @@
 
     function craeteHtmlFromJson(_data, keys2i) {
         let resultHtml3 = [];
-        // resultHtml3 += '<ul>'
         for (let _key in _data) {
-            // console.log(_key, _data[_key]);
-            // ￥W #resultHtml > div > li.￥Ｗ
             if (_key == '￥Ｗ') {
                 resultHtml3 += '<li class="' + _key + '">' + _data[_key] + keys2i + "</li>";
-            } else {
+            } else if (_key == '￥ｊｓ') {
+                resultHtml3 += '<a href=' + _data[_key] + ' class="hidden hidden2" target="_blank" rel="noopener noreferrer"' + _key + '">' + _data[_key] + '</a>';
+            }
+            else {
 
                 resultHtml3 += '<p class="hidden hidden2 ' + _key + '">' + _data[_key] + "</p>";
             }
-            // console.log(resultHtml3);
         }
-        // resultHtml3 += '</ul>'
         return resultHtml3;
     }
 
@@ -66,6 +64,7 @@
         return _str;
     }
 
+    // ローマ字の母音を削除
     const consonant = (str2) => {
         let _vowel = str2.replace(/[kstnhmyrwgzjdb]/g, '');
         return _vowel;
@@ -101,7 +100,7 @@
             document.getElementById('clickBtn1').innerHTML = '<input type="button" value="詳細表示" id="clickBtn1" />';
         // } else if(span.textContent == 0) {
         } else {
-            console.log('ここで要素を消したい');
+            console.log('ここで要素を消す');
             deleteElem('.resultHtml4');
             deleteElem('.total');
         };
@@ -118,7 +117,7 @@
     <label for="sampleForm">二十一代集の検索
         <ul>
             <li>３文字以上入力すると検索を開始します。</li>
-            <li>正規表現が使えます。</li>
+            <li>正規表現が使えます（２文字で検索したい場合、ドットを加えることで可能）。</li>
             <li>ローマ字で検索すると、母音（aiueo）のみで検索します</li>
         </ul>
     </label>
